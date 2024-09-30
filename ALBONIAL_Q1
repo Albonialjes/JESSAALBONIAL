@@ -1,0 +1,67 @@
+import java.util.Scanner;
+
+public class StudentEnrollment {
+
+    // Constants
+    final static int MAX_SUBJECTS = 10; // Maximum number of subjects
+    final static int FEE_PER_UNIT = 1000; // Fee per unit
+
+    public static void main(String[] args) {
+        // Create a Scanner object for user input
+        Scanner scanner = new Scanner(System.in);
+
+        // Input student details
+        System.out.println("Enter Student Name: ");
+        String studentName = scanner.nextLine();
+
+        System.out.println("Enter Course: ");
+        String course = scanner.nextLine();
+
+        System.out.println("Enter Course Code: ");
+        String courseCode = scanner.nextLine();
+
+        // Input number of units for each subject, with a limit of 10 subjects
+        int totalUnits = 0;
+        for (int i = 1; i <= MAX_SUBJECTS; i++) {
+            System.out.println("Enter number of units for subject " + i + " (Enter 0 to stop): ");
+            int units = scanner.nextInt();
+
+            // If user inputs 0, stop asking for further subjects
+            if (units == 0) {
+                break;
+            }
+            totalUnits += units;
+
+            // Ensure that the total units don't exceed the maximum
+            if (totalUnits > MAX_SUBJECTS) {
+                System.out.println("Total units exceeded the maximum allowed units.");
+                totalUnits -= units;
+                break;
+            }
+        }
+
+        // Compute total enrollment fee based on the number of units
+        int totalFee = totalUnits * FEE_PER_UNIT;
+
+        // Output student's name and total fee
+        System.out.println("\nStudent Name: " + studentName);
+        System.out.println("Total Enrollment Fee: " + totalFee);
+
+        // Payment section
+        System.out.println("\nEnter Payment Amount: ");
+        int payment = scanner.nextInt();
+
+        // Check payment status
+        if (payment == totalFee) {
+            System.out.println("Fully Paid.");
+        } else if (payment < totalFee) {
+            System.out.println("Partial Payment. Amount Paid: " + payment);
+            System.out.println("Remaining Balance: " + (totalFee - payment));
+        } else {
+            System.out.println("Payment exceeds the required fee. Excess Amount: " + (payment - totalFee));
+        }
+
+        // Close the scanner to avoid resource leak
+        scanner.close();
+    }
+}
